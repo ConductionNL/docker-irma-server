@@ -1,0 +1,19 @@
+version: '3.5'
+
+x-cache:
+  &cache
+  cache_from:
+    - ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-golang
+
+services:
+  golang:
+    &golang
+    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-php:${APP_ENV}
+    build:
+      context: ./docker
+      target: irma_server
+      <<: *cache
+    environment:
+      - IRMA_VERSION=${IRMA_VERSION}
+      - IRMA_CHECKSUM=${IRMA_CHECKSUM}
+
